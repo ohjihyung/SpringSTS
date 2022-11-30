@@ -30,22 +30,30 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
-	<!-- 한글 처리를 위한 UTF-8  필터 등록
-		JSP나 서블릿 처리할때마다 넘겨받는 request를 setCharaceterEncoding으로 UTF-8 설정했던 사항을
-		필터로 대체함(스프링이 해줌)
+	<!-- 
+		한글 처리를 위한 UTF-8 필터 등록
+		JSP나 서블릿 처리할때마다 넘겨받은 request를 setCharacterEncoding으로 UTF-8 설정했던 사항을 필터로 대체함(스프링이 해줌)
 	 -->
-	
-	
-	   <filter>
-      <filter-name>encodingFilter</filter-name>
-      <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-      <init-param>
-         <param-name>encoding</param-name>
-         <param-value>UTF-8</param-value>
-      </init-param>
-      <filter-mapping>
-         <filter-name>encodingFilter</filter-name>
-         <url-pattern>/*</url-pattern>
-      </filter-mapping>
-   </filter>
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- MultipartFilter  적용-->
+	<filter>
+		<filter-name>MultipartFilter</filter-name>
+		<filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>MultipartFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>

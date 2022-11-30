@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,9 @@ public class BoardController {
 	 	  뒤에는 '.jsp'를 붙여서 페이지 정보를 찾아 응답 리소스 데이터를 구성하여 응답 데이터로 리턴됩니다.
 	 	
 	 */
+	
+	
+	
 	
 	//@RequestMapping(value="/register",method = RequestMethod.GET)
 	@GetMapping("/register")
@@ -81,6 +85,12 @@ public class BoardController {
 		logger.info("list() 실행..");
 		
 		return "success";
+	}
+	@RequestMapping(value="/search", method=RequestMethod.GET)
+	public String search(String keyword, Model model) {
+		logger.info("search() 실행..");
+		model.addAttribute("keyword", keyword);
+		return "board/search";
 	}
 	
 	@RequestMapping(value="/read/{boardNo}")

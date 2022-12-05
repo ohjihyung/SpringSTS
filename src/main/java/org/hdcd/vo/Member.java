@@ -3,17 +3,44 @@ package org.hdcd.vo;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 public class Member {
+	//문자열이 null이 아니고 trim한 길이가 0보다 크다는것을 검사
+	@NotBlank
 	private String userId = "a001";
+	//문자열이 null이 아니고 trim한 길이가 0보다 크다는것을 검사
+	@NotBlank
 	private String password;
+	//문자열이 null이 아니고 trim한 길이가 0보다 크다는것을 검사
+	@NotBlank
+	//문자열 0~3사이 길이를 검사한다.
+	@Size(max=3)
 	private String userName;
 	private int  coin;
-	@DateTimeFormat(pattern = "yyyyMMdd")
+	
+	//과거 날짜인지를 검사 
+	//@DateTimeFormat 설정시 사용
+	@Past
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	//@DateTimeFormat(iso=ISO.DATE) // yyyy-MM-dd or yyyyMMdd 형식 둘다 받음
 	private Date dateofBirth;
+	
+	//중첩된 자바빈즈의 입력값 검증을 지정한다.
+	@Valid
 	private Address address;
+	@Valid
 	private List<Card> cardList;
+	
+	//이미지 양식인지 검사한다.
+	@Email
 	private String email;
 	private String birthDay;
 	

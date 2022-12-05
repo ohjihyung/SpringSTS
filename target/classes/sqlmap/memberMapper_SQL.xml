@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.hdcd.mapper.MemberMapper">
+
+	<!-- 외부 조인을 사용하여 얻은 검색 결과에 대한 매핑을 정의한다. -->
+	<resultMap type="memberVO" id="memberMap">
+		<id property="userNo"  column="user_no"/> 
+		<result property="userNo" column="user_no"/>
+		<result property="userId" column="user_id"/>
+		<result property="userPw" column="user_pw"/>
+		<result property="userName" column="user_name"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="updDate" column="upd_date"/>
+		<collection property="authList" resultMap="authMap"></collection>
+	</resultMap>
+	
+	<resultMap type="memberAuth" id="authMap">
+		<result property="userNo" column="user_no"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+		<insert id="create" useGeneratedKeys="true" parameterType="MemberVO">
+			<selectKey keyProperty="userNo" order="BEFORE" resultType="int" >
+				select seq_member.nextval from dual	
+			</selectKey>
+			insert into member(
+				user_no, user_id, user_pw, user_name, reg_date, upd_date
+			) values(
+				#{userNo}, #{userId}, #{userPw}, #{userName}, sysdate, sysdate
+			)
+		</insert>
+	
+		<insert id="createAuth" parameterType="memberAuth">
+			insert into member_auth(
+				user_no, auth	
+			) values (
+				#{userNo}, #{auth}
+			)
+		</insert>
+		
+		<select id="list" resultType="MemberVO">
+			select 
+				user_no, user_id, user_pw, user_name, reg_date
+			from member
+			order by reg_date desc
+		</select>
+		
+		<select id="read" parameterType="int" resultMap="memberMap">
+			select 
+				m.user_no, user_id, user_pw, user_name, reg_date, auth
+			from member m left outer join member_auth a on(m.user_no = a.user_no)
+			where m.user_no = #{userNo} 
+		</select>
+		
+		<update id="update" parameterType="memberVO">
+			update member
+			set 
+			   user_name = #{userName}
+			where user_no = #{userNo}
+		</update>
+		
+	 	<delete id ="deleteAuth" parameterType="int">
+	 		delete from member_auth
+	 		where user_no = #{userNo}
+		</delete>
+		
+		<delete id="delete" parameterType="int">
+			delete from member
+			where user_no = #{userNo}
+		</delete>
+</mapper>

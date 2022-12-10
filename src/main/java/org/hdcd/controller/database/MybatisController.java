@@ -314,7 +314,74 @@ public class MybatisController {
 	 *               
 	 *                  - 게시판 목록 화면 검색 페이지 추가 (crud/board/list.jsp)
 	 *                  
+	 * 
 	 *              
+	 *          ==========================부트스트랩을 이용한 crud 진행 -======================
+	 *          
+	 *              
+	 *               패이지 모듈화를 위한 Tiles를 함께 사용하여 crud를 진행합니다.
+	 *               
+	 *              1. Tiles란
+	 *                - 어떤 jsp를 탬플릿으로 사용하고 탬플릿의 각 영역을 어떤 내용으로 채울지에 대한 정보를 설정
+	 *                - 하나의 화면들을 만들다보면 공통적으로 반복적으로 생성해야하난 header,footer와 같은 영역들이 존재합니다.
+	 *                우리는 그러한 공통부들을 분리하여 반복적으로 컴포넌트들을 사용하는게 아닌 공통적인 부분은 한번만 가져다 쓰고
+	 *                변화하는 부분에 대해서만 동적으로 변환해 페이지를 관리 할 수 있어야 할 것입니다.
+	 *                이렇게 ,  header/footer/menu 등등 공통적인 소스를 분리하여 한 화면에서 동적으로 레이아웃을 한 곳에 
+	 *                배치하여 설정하고 관리할 수 있도록 도와주는 페이즈 모듈화를 돕는 프레임워크가 Tiles
+	 *                
+	 *                - 아래 jsp들을 이용하여 페이지 모듈화를 진행
+	 *                 > template.jsp 
+	 *                     > footer.jsp
+	 *                     > content source
+	 *                     > footer.jsp
+	 *               
+	 *               
+	 *              2. Tiles Layout 구현 설명
+	 *                  
+	 *                   1) Tiles 의존 관계 등록
+	 *                       - tiles-core
+	 *                       - tiles-api
+	 *                       - tiles-servlet
+	 *                       - tiles-jsp
+	 *                       
+	 *                      @@ 의존 관계 등록후 Maven > udate Project
+	 *                
+	 *              
+	 *             		 2) servlet-content.xml 수정
+	 *                         -ViewResolver order 순서 2순위로 지정
+	 *                         -tilesViewResolver Bean 등록 진행
+	 *          
 	 *      
+	 *             3. 공지사항 게시판(부트스트랩 디자인) 실습
+	 *             
+	 *                 3-1) 데이터베이스 준비
+	 *                    - notice 테이블 생성
+	 *                    create table notice(
+							    bo_no number(8) not null,
+							    bo_title varchar2(300) not null,
+							    bo_content varchar2(4000) not null,
+							    bo_writer varchar2(300) not null,
+							    bo_date date not null,
+							    bo_hit number(8) default 0 null,
+							    constraint pk_notice primary key(bo_no)
+							);
+
+							create sequence seq_notice increment by 1 start with 1 nocache
+	 *               
+	 *                    
+	 *                 3-2) 게시판 작성
+	 *                   - 게시판 목록, 상세보기 컨트롤러 만들기 (noticeboard/NoticeRetrieveController)
+	 *                   - 게시판 목록 화면 컨트롤러 메소드 만들기 (noticeListView: get)
+	 *                   - 게시판 목록 화면 만들기 (noticeboard/list.jsp)
+	 *                   -        여기까지 Tiles로 페이지 모듈화 확인
+	 *                   -  게시판 등록 컨트롤러 만들기(noticeboard/NoticeInsertController)
+	 *                   -  게시판 등록 화면 컨트롤러 메소드 만들기 (noticeFormView:get)
+	 *                   -  게시판 등록 화면 만들기 (noticeboard/form.jsp)
+	 *                   -        여기까지 확인
+	 *                   - 게시판 등록 기능 컨트롤러 메소드 만들기(noticeInsert:post)
+	 *                   - 게시판 등록 기능 서비스 인터페이스 메소드 만들기
+	 *                   - 게시판 등록 기능 서비스 클래스 메소드 만들기
+	 *                   - 게시판 등록 기능 mapper 인터페이스 메소드 만들기
+	 *                   - 게시판 등록 기능 Mapper.xml 쿼리 만들기
 	 */
 }

@@ -3,6 +3,8 @@ package org.hdcd.mapper;
 import java.util.List;
 
 import org.hdcd.vo.Board;
+import org.springframework.stereotype.Repository;
+
 
 public interface BoardMapper {
 

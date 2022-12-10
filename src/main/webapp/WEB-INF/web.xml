@@ -23,8 +23,25 @@
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-	</servlet>
 		
+	<!-- 12/08   
+		 web.xml의 설정은 Was(Tomcat) 자체 설정을 진행
+		 multipart-config : 메모리사이즈, 업로드 파일 저장 위치, 최대 크기 설정 
+		 
+		 아래 설정한 내용을 가지고 @multipartConfig 어노테이션 활용하면 아래서 
+		 설정한 셋팅값들로 파일 업로드를 진행할 수 있다.
+	 -->
+		<multipart-config>
+			<location>c:\\upload</location>   <!-- 업로드 되는 파일을 저장할 공간 , 위치 -->
+			<max-file-size>20971520</max-file-size> <!-- 업로드 파일의 최대 크기 1MB * 20 -->
+			<max-request-size>41043040</max-request-size>  <!-- 한번에 올릴수 있는 최대 크기 40MB 설정 -->
+			<file-size-threshold>20971520</file-size-threshold>
+			<!-- 메모리 사용 크기 20MB
+				  업로드 하는 파일이 임시로 파일로 저장되지 않고 메모리에서 바로 스트림으로 전달되는 크기의 한계  
+			 -->
+		</multipart-config>
+	</servlet>
+			
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
